@@ -1,0 +1,13 @@
+{
+  "name": "pi-stuff",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "diff": "^8.0.2"
+  },
+  "license": "ISC"
+}
