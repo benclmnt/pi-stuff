@@ -1,0 +1,4 @@
+{
+  "type": "module",
+  "description": "Unified Chrome DevTools Protocol CLI — zero dependencies, built-in WebSocket"
+}
