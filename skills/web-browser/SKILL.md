@@ -5,13 +5,13 @@ description: "Control Chrome/Chromium via CDP. Browse, scrape, interact, log —
 
 # Web Browser Skill
 
-Unified Chrome DevTools Protocol CLI. Merges `chrome-cdp` (per-tab daemon, dev workflow) and the original `web-browser` (high-level automation, logging).
+Chrome DevTools Protocol CLI for browsing, scraping, interaction, and logging.
 
 ## Architecture
 
 ```
 scripts/
-├── cdp.mjs                 ← unified CLI entry point (./scripts/cdp.mjs)
+├── cdp.mjs                 ← CLI entry point (./scripts/cdp.mjs)
 ├── package.json            ← zero dependencies (Node 22+ built-in WebSocket)
 ├── lib/
 │   ├── automation-session.mjs ← shared browser process/session helpers
@@ -24,7 +24,7 @@ scripts/
 │   ├── log.mjs             ← read/tail background logs
 │   └── net-summary.mjs     ← summarize network responses
 domain-skills/
-└── <site>/                 ← site-specific scripts (unchanged)
+└── <site>/                 ← site-specific scripts
 ```
 
 **Daemon model.** Each tab gets a persistent Unix-socket daemon holding its CDP session. Chrome's "Allow debugging" modal fires once per daemon (= once per tab), then all subsequent commands are instant. Daemons auto-exit after 20 min idle.

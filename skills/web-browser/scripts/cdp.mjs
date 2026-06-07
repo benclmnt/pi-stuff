@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * cdp — unified Chrome DevTools Protocol CLI.
+ * cdp — Chrome DevTools Protocol CLI.
  *
- * Merge of chrome-cdp (daemon architecture) and web-browser (high-level
- * automation). One tool, one daemon model, one way to address tabs.
+ * Browser automation, inspection, and interaction via a persistent daemon
+ * model and a consistent tab-targeting interface.
  *
  * Usage: cdp [--profile <name>] <command> [target] [args...]
  *
