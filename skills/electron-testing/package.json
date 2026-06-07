@@ -1,0 +1,24 @@
+{
+  "name": "pi-electron-testing",
+  "version": "1.0.1",
+  "description": "Launch, inspect, and test Electron apps via Chrome DevTools Protocol — no daemon, no browser modal",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "skills",
+    "electron",
+    "cdp",
+    "testing"
+  ],
+  "license": "MIT",
+  "files": [
+    "SKILL.md",
+    "scripts/"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}
