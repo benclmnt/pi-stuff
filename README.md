@@ -12,7 +12,7 @@ Built to extend pi with better editing workflows, desktop notifications, usage t
 |---|---|
 | **[multi-edit](./extensions/multi-edit.ts)** | Replace the built-in `edit` tool with batch multi-edit support (via `multi` array) and Codex-style `patch` payloads. Includes a preflight pass that validates all edits before touching files. |
 | **[notify](./extensions/notify.ts)** | Sends a native desktop notification when the agent finishes processing and is waiting for input. Uses OSC 777 escape sequences — supports Ghostty, iTerm2, WezTerm, and rxvt-unicode. |
-| **[parallel-web-search](./extensions/parallel-web-search.ts)** | Adds a `web_search` tool backed by [Parallel's Search API](https://parallel.ai) for LLM-optimised web search with multiple queries and an objective context. |
+| **[parallel-web-search](./extensions/parallel-web-search.ts)** | Adds a `web_search` tool backed by [Parallel's Search API](https://parallel.ai) or [Exa's Search API](https://exa.ai) for LLM-optimised web search with multiple queries and an objective context. |
 | **[usage-bar](./extensions/usage-bar.ts)** | Displays AI provider usage stats with progress bars, provider status, and reset countdowns — similar to CodexBar. Run `/usage` to invoke. |
 | **[split-fork](./extensions/split-fork.ts)** | Opens a new Ghostty window or split pane for the agent — useful for side-by-side contexts. Supports macOS Ghostty via AppleScript. |
 | **[user-keys-env](./extensions/user-keys-env.ts)** | Reads `~/.pi/agent/user-keys.json` and injects API keys into `process.env` so they're available to other extensions without modifying the shell environment. |

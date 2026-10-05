@@ -8,7 +8,8 @@
  *   {
  *     "anthropic_api_key": "sk-ant-...",
  *     "openai_api_key": "sk-...",
- *     "parallel_api_key": "pkey_..."
+ *     "parallel_api_key": "pkey_...",
+ *     "exa_api_key": "exa_..."
  *   }
  *
  * In models.json, reference them as env vars:
