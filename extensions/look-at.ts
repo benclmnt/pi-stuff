@@ -1,11 +1,11 @@
 /**
- * look_at — Multimodal file analysis via Gemini 3 Flash Preview.
+ * look_at — Multimodal file analysis via Gemini 3.7 Flash.
  *
- * Reads local files (images or text) and sends them to Gemini for analysis.
+ * Reads local files (images, PDFs, audio, video, or text) and sends them to Gemini 3.7 Flash for analysis.
  * No sub-agent — just a direct API call to the Gemini model.
  *
  * Supports:
- *   - Images (png, jpg, gif, webp) sent as inline data
+ *   - Images, PDFs, audio, and video sent as inline data
  *   - Text files sent as plain text
  *   - Optional reference files for comparison (before/after, diffs, etc.)
  *
@@ -19,21 +19,40 @@ import { resolve, extname } from "node:path";
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
-const IMAGE_EXTS = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp"]);
-
 function mimeType(ext: string): string {
 	const map: Record<string, string> = {
+		// Images
 		".png": "image/png",
 		".jpg": "image/jpeg",
 		".jpeg": "image/jpeg",
 		".gif": "image/gif",
 		".webp": "image/webp",
+		// Documents
+		".pdf": "application/pdf",
+		// Audio
+		".mp3": "audio/mpeg",
+		".wav": "audio/wav",
+		".flac": "audio/flac",
+		".m4a": "audio/mp4",
+		".ogg": "audio/ogg",
+		".oga": "audio/ogg",
+		".opus": "audio/opus",
+		".aac": "audio/aac",
+		// Video
+		".mp4": "video/mp4",
+		".mpeg": "video/mpeg",
+		".mpg": "video/mpeg",
+		".mov": "video/quicktime",
+		".avi": "video/x-msvideo",
+		".webm": "video/webm",
+		".wmv": "video/x-ms-wmv",
+		".3gp": "video/3gpp",
 	};
 	return map[ext.toLowerCase()] ?? "text/plain";
 }
 
-function isImage(path: string): boolean {
-	return IMAGE_EXTS.has(extname(path).toLowerCase());
+function isInlineMedia(path: string): boolean {
+	return mimeType(extname(path)) !== "text/plain";
 }
 
 function truncate(s: string, max = 80): string {
@@ -47,7 +66,7 @@ export default function (pi: ExtensionAPI) {
 		name: "look_at",
 		label: "Look At",
 		description:
-			"Analyze a local file (image or text) using Gemini 3 Flash Preview.\n\n"
+			"Analyze a local file (image, PDF, audio, video, or text) using Gemini 3.7 Flash.\n\n"
 			+ "Use this when you need to extract information from images, analyze screenshots, "
 			+ "summarize documents, or compare files — without reading raw contents into context.\n\n"
 			+ "Always provide a clear objective describing what to look for.\n\n"
@@ -96,7 +115,7 @@ export default function (pi: ExtensionAPI) {
 			const referenceFiles: string[] = params.referenceFiles ?? [];
 
 			let mainPart: Record<string, unknown>;
-			if (isImage(filePath)) {
+			if (isInlineMedia(filePath)) {
 				const buf = await readFile(filePath);
 				mainPart = {
 					inlineData: {
@@ -122,7 +141,7 @@ export default function (pi: ExtensionAPI) {
 			// Attach reference files
 			for (const ref of referenceFiles) {
 				const refPath = resolve(_ctx.cwd, ref);
-				if (isImage(refPath)) {
+				if (isInlineMedia(refPath)) {
 					const buf = await readFile(refPath);
 					parts.push({
 						inlineData: {
@@ -145,13 +164,13 @@ export default function (pi: ExtensionAPI) {
 			}
 
 			onUpdate?.({
-				content: [{ type: "text", text: "🔍 Analyzing with Gemini 3 Flash Preview…" }],
+				content: [{ type: "text", text: "🔍 Analyzing with Gemini 3.7 Flash…" }],
 			});
 
 			// ── Call Gemini API ──────────────────────────────────────
 			const url =
 				"https://generativelanguage.googleapis.com/v1beta/models/"
-				+ "gemini-3-flash-preview:generateContent"
+				+ "gemini-3.7-flash:generateContent"
 				+ `?key=${apiKey}`;
 
 			const res = await fetch(url, {
@@ -182,7 +201,7 @@ export default function (pi: ExtensionAPI) {
 
 			return {
 				content: [{ type: "text", text: resultText }],
-				details: { model: "gemini-3-flash-preview", objective },
+				details: { model: "gemini-3.7-flash", objective },
 			};
 		},
 
